@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import time
 import joblib
+from sklearn.metrics import DistanceMetric
 from streamlit_extras.switch_page_button import switch_page
 
 
@@ -48,36 +49,41 @@ def main():
                 umur = int(umur)
                 mm = int(mm)
                 g = int(g)
-                hb = int(hb)
+                hb = float(hb)
                 nadi = int(nadi)
             except ValueError:
                 time.sleep(0.5)
                 st.toast('Teks harus berisikan angka', icon='🤧')
 
             td = mm/g
-            result = get_predict(umur, td, hb, nadi)
-            st.write(result)
+            result = get_predict(umur, hb, td, nadi)
+
+            if result == 0:
+                st.success("Non Anemia")
+            else:
+                st.error("Anemia")
 
         else:
             time.sleep(.5)
             st.toast('Masukkan teks terlebih dahulu', icon='🤧')
 
 
-def get_predict(umur, td, hb, nadi):
+def get_predict(umur, hb, td, nadi):
 
-    user_input = pd.DataFrame({
+    df = pd.DataFrame({
         'Umur': [umur],
-        'TD': [td],
         'HB': [hb],
+        'TD': [td],
         'Nadi': [nadi],
     })
 
-    # model = joblib.load('model/knn-model')
+    model = joblib.load('model/knn-model')
     scaler = joblib.load('model/minmax-model')
-    scaled_input = scaler.transform(user_input)
-    # prediction = model.predict(scaled_input)
 
-    return user_input
+    minmax = scaler.transform(df[['Umur', 'HB', 'TD', 'Nadi']])
+    prediction = model.predict(minmax)
+
+    return prediction
 
 
 if __name__ == '__main__':
