@@ -43,7 +43,7 @@ def main():
         hb = st.text_input('Hemoglobin')
         nadi = st.text_input('Nadi')
 
-    if st.button("Prediksi Sekarang 👉"):
+    if st.button("Hasil Prediksi"):
         if umur and mm and g and hb and nadi:
             try:
                 umur = int(umur)
@@ -51,17 +51,17 @@ def main():
                 g = int(g)
                 hb = float(hb)
                 nadi = int(nadi)
+                td = mm/g
+                result = get_predict(umur, hb, td, nadi)
+                if result == 0:
+                    with st.expander('Berdasarkan prediksi didapatkan hasil: '):
+                        st.success("Non Anemia")
+                else:
+                    with st.expander('Berdasarkan hasil prediksi didapatkan hasil: '):
+                        st.error("Anemia")
             except ValueError:
                 time.sleep(0.5)
                 st.toast('Teks harus berisikan angka', icon='🤧')
-
-            td = mm/g
-            result = get_predict(umur, hb, td, nadi)
-
-            if result == 0:
-                st.success("Non Anemia")
-            else:
-                st.error("Anemia")
 
         else:
             time.sleep(.5)

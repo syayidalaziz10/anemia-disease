@@ -55,17 +55,18 @@ def main():
     before = data['Keterangan'].value_counts()
     after = imbalance['Keterangan'].value_counts()
 
-    # st.button("Documentation", key="documentation")
+    feature = imbalance.drop('Keterangan', axis=1)
+    label = imbalance['Keterangan']
 
-    # Handle the button click event for "Documentation"
-    # Redirect to the "About" page
-    # about_page()
+    X_train, X_test, y_train, y_test = train_test_split(feature, label,
+                                                        test_size=0.2, random_state=42)
 
-    # correlation_data = reduce.corr(method='pearson', numeric_only=False)
+    count_X_train = len(X_train)
+    count_X_test = len(X_test)
 
-    # end data processing
-
-    # interface section
+    st.header("Prediksi Anemia pada Ibu Hamil")
+    st.write("Masukkan beberapa isian yang digunakan untuk melakukan deteksi dini pada penyakit anemia pada ibu hamil. Pastikan isian yang anda masukkan benar!")
+    st.image("assets/get-started.png")
 
     tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(
         ["(1) Data Understanding", "(2) Analisis Data", "(3) Preprocessing Data", "(4) KNN Classifier", "(5) SVM Classifier", "(6) Naive Bayes"])
@@ -81,21 +82,95 @@ def main():
 
     with tab3:
         st.subheader("3.1 Dataset")
-        st.write(df)
+        st.dataframe(df, use_container_width=True)
 
         st.subheader("3.2 Data Reduce")
-        st.write(reduce)
+        st.dataframe(reduce, use_container_width=True)
 
         st.subheader("3.3 Data Normalization")
-        st.dataframe(data, width=None, height=None)
+        st.dataframe(data, use_container_width=True)
 
         st.subheader("3.4 Balancing Data")
-        st.write("Data sebelum di balancing: ", before)
-        st.write("Data setelah di balancing: ", after)
+
+        col1, col2 = st.columns(2)
+        fig, ax = plt.subplots(figsize=(7, 7))
+
+        with col1:
+            st.write("Data sebelum di balancing: ")
+            before.plot(kind='bar', color='blue', ax=ax)
+            st.pyplot(fig)
+
+        with col2:
+            st.write("Data setelah di balancing: ")
+            after.plot(kind='bar', color='orange', ax=ax)
+            st.pyplot(fig)
+
     with tab4:
-        st.subheader("3.5 Split Data")
-        st.write("Data input X: ", X.head())
-        st.write("Data input y: ", y.head())
+        st.subheader("4.1 Split Data")
+        st.dataframe(y_test, use_container_width=True)
+        st.dataframe(X_test, use_container_width=True)
+        st.write("Jumlah data training: ", count_X_train)
+        st.write("Jumlah data testing: ", count_X_test)
+
+        st.subheader("4.2 KNN")
+
+        k_values = [3, 5, 7]
+        results = []
+
+        # Loop through different values of k
+        for k in k_values:
+            # Train a KNN classifier
+            knn_classifier = KNeighborsClassifier(n_neighbors=k)
+            knn_classifier.fit(X_train, y_train)
+
+            # Make predictions
+            y_pred = knn_classifier.predict(X_test)
+
+            # Compute evaluation metrics
+            accuracy = accuracy_score(y_test, y_pred)
+            precision = precision_score(y_test, y_pred, average='weighted')
+            recall = recall_score(y_test, y_pred, average='weighted')
+            f1 = f1_score(y_test, y_pred, average='weighted')
+
+            # Append results to the list
+            results.append({
+                'Nilai K': k,
+                'Accuracy': accuracy,
+                'Precision': precision,
+                'Recall': recall,
+                'F1-Score': f1
+            })
+
+            # cm = confusion_matrix(y_test, y_pred)
+            # st.write(cm)
+
+        code = '''        for k in k_values:
+            # Train a KNN classifier
+            knn_classifier = KNeighborsClassifier(n_neighbors=k)
+            knn_classifier.fit(X_train, y_train)
+
+            # Make predictions
+            y_pred = knn_classifier.predict(X_test)
+
+            # Compute evaluation metrics
+            accuracy = accuracy_score(y_test, y_pred)
+            precision = precision_score(y_test, y_pred, average='weighted')
+            recall = recall_score(y_test, y_pred, average='weighted')
+            f1 = f1_score(y_test, y_pred, average='weighted')
+
+            # Append results to the list
+            results.append({
+                'Nilai K': k,
+                'Accuracy': accuracy,
+                'Precision': precision,
+                'Recall': recall,
+                'F1-Score': f1
+            })'''
+        st.code(code, language='python')
+
+        st.subheader("4.3 Evaluasi")
+        st.caption('Berikut merupakan tabel evaluasi dari hasil pengujian yang telah dilakukan menggunakan nilai K 3,5 dan 7 pada klasifikasi menggunakan KNN')
+        st.dataframe(results, use_container_width=True)
 
     with tab5:
         st.header("An owl")
