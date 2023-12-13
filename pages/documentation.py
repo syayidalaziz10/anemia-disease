@@ -16,6 +16,7 @@ from streamlit_extras.switch_page_button import switch_page
 
 # data processing
 df = pd.read_csv("dataset/anemia.csv")
+data_asli = pd.read_csv("dataset/data-asli.csv")
 dat = df.head()
 reduce = df.drop(['Nama', 'Goldar', 'Pengobatan'], axis=1)
 data = df.drop(['Nama', 'Goldar', 'Pengobatan'], axis=1)
@@ -147,8 +148,8 @@ def main():
     if st.button("👈 Kembali ke Halaman Utama"):
         switch_page("app")
 
-    st.header("Prediksi Anemia pada Ibu Hamil")
-    st.write("Masukkan beberapa isian yang digunakan untuk melakukan deteksi dini pada penyakit anemia pada ibu hamil. Pastikan isian yang anda masukkan benar!")
+    st.header("Dokumentasi")
+    st.write("Berikut merupakan beberapa langkah-langkah yang dilakukan untuk melakukan klasifikasi pada dataset Anemia Ibu Hamil")
     st.image("assets/get-started.png")
 
     tab1, tab2, tab3, tab4, tab5 = st.tabs(
@@ -165,15 +166,18 @@ def main():
 
     with tab2:
         st.subheader("2.1 Dataset")
+        st.dataframe(data_asli, use_container_width=True)
+
+        st.subheader("2.3 Data Transformation")
         st.dataframe(df, use_container_width=True)
 
         st.subheader("2.2 Data Reduce")
         st.dataframe(reduce, use_container_width=True)
 
-        st.subheader("2.3 Data Normalization")
+        st.subheader("2.4 Data Normalization")
         st.dataframe(data, use_container_width=True)
 
-        st.subheader("2.4 Balancing Data")
+        st.subheader("2.5 Balancing Data")
 
         col1, col2 = st.columns(2)
         fig, ax = plt.subplots(figsize=(7, 7))

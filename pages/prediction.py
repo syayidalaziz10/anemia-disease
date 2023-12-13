@@ -26,7 +26,7 @@ def main():
     if st.button("👈 Kembali ke Halaman Utama"):
         switch_page("app")
 
-    st.image("assets/get-started.png")
+    st.image("assets/banner-prediction.png")
     st.header("Prediksi Anemia pada Ibu Hamil")
     st.write("Masukkan beberapa isian yang digunakan untuk melakukan deteksi dini pada penyakit anemia pada ibu hamil. Pastikan isian yang anda masukkan benar!")
 

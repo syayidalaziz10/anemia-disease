@@ -18,11 +18,11 @@ def main():
         </style>
         """, unsafe_allow_html=True,
     )
-
     st.image("assets/get-started.png")
 
-    st.header("Home Page")
-    st.write("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.")
+    st.header("Selamat Datang 👋")
+    st.write(
+        "Aplikasi deteksi dini Anemia pada Ibu Hamil ini merupakan salah satu contoh implementasi data mining pada bidang kesehatan. Dengan menggunakan data yang ada sistem ini akan dapat melakukan prediksi pada data berikutnya yang sesuai dengan penyakit anemia, sehingga dapat melakukan prediksi yang tepat setelah sistem melakukan analisis pada data baru tersebut. Hasil akhir pada aplikasi ini akan memberikan deteksi dini pada ibu hamil tersebut sedang mengalami anemia atau tidak.")
     col1, col2 = st.columns([3, 11])
 
     with col1:
