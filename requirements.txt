@@ -2,5 +2,4 @@ streamlit
 pandas
 nltk
 scikit-learn
-Sastrawi
 joblib
