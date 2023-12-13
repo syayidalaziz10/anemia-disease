@@ -168,10 +168,10 @@ def main():
         st.subheader("2.1 Dataset")
         st.dataframe(data_asli, use_container_width=True)
 
-        st.subheader("2.3 Data Transformation")
+        st.subheader("2.2 Data Transformation")
         st.dataframe(df, use_container_width=True)
 
-        st.subheader("2.2 Data Reduce")
+        st.subheader("2.3 Data Reduce")
         st.dataframe(reduce, use_container_width=True)
 
         st.subheader("2.4 Data Normalization")
