@@ -1,0 +1,5 @@
+{
+  "cmake.configureOnOpen": false,
+  "java.dependency.syncWithFolderExplorer": false,
+  "java.project.explorer.showNonJavaResources": false
+}
